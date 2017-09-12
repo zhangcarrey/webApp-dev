@@ -4,13 +4,13 @@ angular.module('app',['ui.router','ngCookies','validation','ngAnimate']);
 'use strict';
 
 angular.module('app').value('dict',{}).run(['dict','$http',function(dict,$http){
-	$http.get('data/city.json').then(function(resp){
+	$http.get('api/city.php').then(function(resp){
 		dict.city = resp.data;
 	});
-	$http.get('data/salary.json').then(function(resp){
+	$http.get('api/salary.php').then(function(resp){
 	dict.salary = resp.data;
 	});
-	$http.get('data/scale.json').then(function(resp){
+	$http.get('api/scale.php').then(function(resp){
 	dict.scale = resp.data;
 	});
 }])
@@ -115,14 +115,14 @@ angular.module('app').config(['$validationProvider', function($validationProvide
 'use strict';
 
 angular.module('app').controller('companyCtrl',['$http','$state','$scope',function($http,$state,$scope){
-	$http.get('data/company.json?id='+$state.params.id).then(function(resp){
+	$http.get('api/company.php?id='+$state.params.id).then(function(resp){
 		$scope.company = resp.data;
 	})
 }])
 'use strict';
 
 angular.module('app').controller('favoriteCtrl',['$http','$scope',function($http,$scope){
-	$http.get('data/myfavorite.json').then(function(resp){
+	$http.get('api/myfavorite.php').then(function(resp){
 		$scope.list = resp.data;
 	})
 }])
@@ -130,7 +130,7 @@ angular.module('app').controller('favoriteCtrl',['$http','$scope',function($http
 
 angular.module('app').controller('loginCtrl',['cache','$http','$scope','$state',function(cache,$http,$scope,$state){
 	$scope.submit = function (){
-		$http.post('data/login.json').success(function(resp){
+		$http.post('api/login.php').success(function(resp){
 			cache.put('id',resp.data.id);
 			cache.put('name',resp.data.name);
 			cache.put('image',resp.data.image);
@@ -196,7 +196,7 @@ angular.module('app').controller('positionCtrl',['$log','$q','$http','$state','$
 	$scope.message = $scope.isLogin?'投个简历':'去登录';
 	function getPosition(){
 		var def = $q.defer();
-		$http.get('data/position.json?id='+$state.params.id).then(function(resp){
+		$http.get('api/position.php?id='+$state.params.id).then(function(resp){
 		// console.log(resp);
 		// console.log($state.params);
 		$scope.position = resp.data;
@@ -210,7 +210,7 @@ angular.module('app').controller('positionCtrl',['$log','$q','$http','$state','$
 	  return def.promise;
 	}
 	function getCompany (id){
-		$http.get('data/company.json?id='+id).then(function(resp){
+		$http.get('api/company.php?id='+id).then(function(resp){
 			$scope.company = resp.data;
 		})
 	}
@@ -220,7 +220,7 @@ angular.module('app').controller('positionCtrl',['$log','$q','$http','$state','$
 	$scope.go = function(){
 		if($scope.message!=='已投递'){
 			if($scope.isLogin){
-			$http.post('data/handle.json',{
+			$http.post('api/handle.php',{
 				id: $scope.position.id
 			}).success(function(resp){
 				$log.info(resp);
@@ -248,7 +248,7 @@ angular.module('app').controller('postCtrl',['$http','$scope',function($http,$sc
 		id: 'fail',
 		name: '不合适'
 	}];
-	$http.get('data/myPost.json').then(function(resp){
+	$http.get('api/myPost.php').then(function(resp){
 		$scope.positionList = resp.data;
 	});
 	$scope.filterObj = {};
@@ -271,13 +271,13 @@ angular.module('app').controller('postCtrl',['$http','$scope',function($http,$sc
 
 angular.module('app').controller('registerCtrl',['$interval','$http','$scope',function($interval,$http,$scope){
 	$scope.submit = function () {
-		$http.post('data/regist.json',$scope.user).success(function(resp){
+		$http.post('api/regist.php',$scope.user).success(function(resp){
 			console.log(resp);
 		})
 	};
 	var count = 60;
 	$scope.send = function () {
-		$http.get('data/code.json').then(function(resp){
+		$http.get('api/code.php').then(function(resp){
 			if(1===resp.data.state){
 				count = 60;
 				$scope.time = '60s';
@@ -299,7 +299,7 @@ angular.module('app').controller('registerCtrl',['$interval','$http','$scope',fu
 angular.module('app').controller('searchCtrl',['dict','$http','$scope',function(dict,$http,$scope){
 	$scope.name = '';
 	$scope.search = function () {
-		$http.get('data/positionList.json').then(function(resp){
+		$http.get('api/positionList.php').then(function(resp){
 		$scope.positionList = resp.data;
 	  });
 	};
@@ -448,7 +448,7 @@ angular.module('app').directive('appPositionInfo',['$http',function($http){
 				}
 			})
 			$scope.favorite = function(){
-				$http.post('data/favorite.json',{
+				$http.post('api/favorite.php',{
 					id: $scope.pos.id,
 					select: !$scope.pos.select
 				}).success(function(resp){
@@ -474,7 +474,7 @@ angular.module('app').directive('appPositionList',['$http',function($http){
 		link: function($scope){
 			// $scope.name = cache.get('name')||'';
 			$scope.select = function(item){
-				$http.post('data/favorite.json',{
+				$http.post('api/favorite.php',{
 					id: item.id,
 					select: !item.select
 				}).success(function(resp){
