@@ -1,6 +1,6 @@
 {
     "id": "c1",
-    "imageUrl": "/webapp-001/build/image/company-1.png",
+    "imageUrl": "https://github.com/zhangcarrey/webApp-dev/blob/master/image/company-1.png",
     "name": "慕课网",
     "industry": "移动互联网",
     "state": "A轮",

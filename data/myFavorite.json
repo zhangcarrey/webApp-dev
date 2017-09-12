@@ -1,7 +1,7 @@
 [
   {
     "id": "p1",
-    "imageUrl": "/webapp-001/build/image/company-1.png",
+    "imageUrl": "https://github.com/zhangcarrey/webApp-dev/blob/master/image/company-1.png",
     "job": "WEB前端",
     "companyId": "c1",
     "companyName": "慕课网",
