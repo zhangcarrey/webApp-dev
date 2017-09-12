@@ -142,7 +142,7 @@ angular.module('app').controller('loginCtrl',['cache','$http','$scope','$state',
 
 angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
 	
-	$http.get('/data/positionList.json').then(function(resp){
+	$http.get('data/positionList.json').then(function(resp){
 		// console.log(resp);
 		$scope.list = resp.data;
 	})
