@@ -142,7 +142,7 @@ angular.module('app').controller('loginCtrl',['cache','$http','$scope','$state',
 
 angular.module('app').controller('mainCtrl',['$http','$scope',function($http,$scope){
 	
-	$http.get('data/positionList.json').then(function(resp){
+	$http.get('api/positionList.php').then(function(resp){
 		// console.log(resp);
 		$scope.list = resp.data;
 	})
@@ -191,6 +191,7 @@ angular.module('app').controller('meCtrl',['$http','$scope','cache','$state',fun
 'use strict';
 
 angular.module('app').controller('positionCtrl',['$log','$q','$http','$state','$scope','cache',function($log,$q,$http,$state,$scope,cache){
+	$scope.starActive = false;
 	$scope.isLogin = !!cache.get('name');
 	$scope.message = $scope.isLogin?'投个简历':'去登录';
 	function getPosition(){
@@ -452,7 +453,7 @@ angular.module('app').directive('appPositionInfo',['$http',function($http){
 					select: !$scope.pos.select
 				}).success(function(resp){
 					$scope.isActive = !$scope.isActive;
-					$scope.imagePath = $scope.isActive?'image/star-active.png':'image/star-png';
+					$scope.imagePath = $scope.isActive?'image/star-active.png':'image/star.png';
 				});
 			}			
 		}
